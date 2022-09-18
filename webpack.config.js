@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './codegen/local_storage/api.ts',
+    entry: './codegen/local_storage/index.ts',
     devtool: 'inline-source-map',
     module: {
         rules: [
