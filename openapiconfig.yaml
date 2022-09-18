@@ -1,0 +1,11 @@
+allowUnicodeIdentifiers: true
+supportsES6: true
+withNodeImports: true
+withSeparateModelsAndApi: true
+disallowAdditionalPropertiesIfNotPresent: true
+useSingleRequestParameter: true
+enablePostProcessFile: true
+apiPackage: "api"
+modelPackage: "models"
+nullSafeAdditionalProps: false
+paramNaming: "snake_case"
