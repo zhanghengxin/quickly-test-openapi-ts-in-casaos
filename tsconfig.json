@@ -5,11 +5,9 @@
     "module": "ES6",
     "target": "es5",
     "allowJs": true,
-    // 允许编译 javascript ⽂件
     "moduleResolution": "Node",
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true
-    // 允许从没有设置默认导出的模块中默认导⼊。
   }
 }
 //{

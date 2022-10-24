@@ -15,9 +15,6 @@
 
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-// URLSearchParams not necessarily used
-// @ts-ignore
-import { URL, URLSearchParams } from 'url';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
@@ -36,6 +33,38 @@ export interface BaseResponse {
      * @memberof BaseResponse
      */
     'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface GetMerges200Response
+ */
+export interface GetMerges200Response {
+    /**
+     * message returned by server side if there is any
+     * @type {string}
+     * @memberof GetMerges200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {Array<Merge>}
+     * @memberof GetMerges200Response
+     */
+    'data'?: Array<Merge>;
+}
+/**
+ * 
+ * @export
+ * @interface GetMerges200ResponseAllOf
+ */
+export interface GetMerges200ResponseAllOf {
+    /**
+     * 
+     * @type {Array<Merge>}
+     * @memberof GetMerges200ResponseAllOf
+     */
+    'data'?: Array<Merge>;
 }
 /**
  * 
@@ -68,6 +97,55 @@ export interface GetMounts200ResponseAllOf {
      * @memberof GetMounts200ResponseAllOf
      */
     'data'?: Array<Mount>;
+}
+/**
+ * 
+ * @export
+ * @interface Merge
+ */
+export interface Merge {
+    /**
+     * 
+     * @type {number}
+     * @memberof Merge
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Merge
+     */
+    'fstype'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Merge
+     */
+    'mount_point': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Merge
+     */
+    'source_base_path'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Merge
+     */
+    'source_volume_paths'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Merge
+     */
+    'created_at'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Merge
+     */
+    'updated_at'?: string;
 }
 /**
  * 
@@ -106,17 +184,43 @@ export interface Mount {
      */
     'options'?: string;
     /**
-     * `true` if the mount should be persisted in `/etc/fstab`, `false` otherwise
-     * @type {boolean}
-     * @memberof Mount
-     */
-    'persist'?: boolean;
-    /**
      * Extended properties of the mount
      * @type {{ [key: string]: string; }}
      * @memberof Mount
      */
     'extended'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface SetMerge200Response
+ */
+export interface SetMerge200Response {
+    /**
+     * message returned by server side if there is any
+     * @type {string}
+     * @memberof SetMerge200Response
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {Merge}
+     * @memberof SetMerge200Response
+     */
+    'data'?: Merge;
+}
+/**
+ * 
+ * @export
+ * @interface SetMerge200ResponseAllOf
+ */
+export interface SetMerge200ResponseAllOf {
+    /**
+     * 
+     * @type {Merge}
+     * @memberof SetMerge200ResponseAllOf
+     */
+    'data'?: Merge;
 }
 /**
  * 
@@ -153,16 +257,227 @@ export interface UpdateMount200ResponseAllOf {
 /**
  * 
  * @export
- * @interface UpdateMount400Response
+ * @interface Volume
  */
-export interface UpdateMount400Response {
+export interface Volume {
     /**
-     * message returned by server side if there is any
-     * @type {string}
-     * @memberof UpdateMount400Response
+     * 
+     * @type {number}
+     * @memberof Volume
      */
-    'message'?: string;
+    'id'?: number;
+    /**
+     * (TODO)
+     * @type {string}
+     * @memberof Volume
+     */
+    'uuid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Volume
+     */
+    'path': string;
+    /**
+     * (TODO)
+     * @type {number}
+     * @memberof Volume
+     */
+    'state'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Volume
+     */
+    'mount_point': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Volume
+     */
+    'created_at'?: string;
 }
+
+/**
+ * MergeMethodsApi - axios parameter creator
+ * @export
+ */
+export const MergeMethodsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * (TODO)
+         * @summary Get merges
+         * @param {string} [mountPoint] Filter the results by mount point
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMerges: async (mountPoint?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/merge`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (mountPoint !== undefined) {
+                localVarQueryParameter['mount_point'] = mountPoint;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * (TODO)
+         * @summary Set a merge
+         * @param {Merge} merge 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setMerge: async (merge: Merge, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'merge' is not null or undefined
+            assertParamExists('setMerge', 'merge', merge)
+            const localVarPath = `/merge`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(merge, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MergeMethodsApi - functional programming interface
+ * @export
+ */
+export const MergeMethodsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MergeMethodsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * (TODO)
+         * @summary Get merges
+         * @param {string} [mountPoint] Filter the results by mount point
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMerges(mountPoint?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMerges200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMerges(mountPoint, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * (TODO)
+         * @summary Set a merge
+         * @param {Merge} merge 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setMerge(merge: Merge, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetMerge200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setMerge(merge, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MergeMethodsApi - factory interface
+ * @export
+ */
+export const MergeMethodsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MergeMethodsApiFp(configuration)
+    return {
+        /**
+         * (TODO)
+         * @summary Get merges
+         * @param {string} [mountPoint] Filter the results by mount point
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMerges(mountPoint?: string, options?: any): AxiosPromise<GetMerges200Response> {
+            return localVarFp.getMerges(mountPoint, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * (TODO)
+         * @summary Set a merge
+         * @param {Merge} merge 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setMerge(merge: Merge, options?: any): AxiosPromise<SetMerge200Response> {
+            return localVarFp.setMerge(merge, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MergeMethodsApi - object-oriented interface
+ * @export
+ * @class MergeMethodsApi
+ * @extends {BaseAPI}
+ */
+export class MergeMethodsApi extends BaseAPI {
+    /**
+     * (TODO)
+     * @summary Get merges
+     * @param {string} [mountPoint] Filter the results by mount point
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MergeMethodsApi
+     */
+    public getMerges(mountPoint?: string, options?: AxiosRequestConfig) {
+        return MergeMethodsApiFp(this.configuration).getMerges(mountPoint, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * (TODO)
+     * @summary Set a merge
+     * @param {Merge} merge 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MergeMethodsApi
+     */
+    public setMerge(merge: Merge, options?: AxiosRequestConfig) {
+        return MergeMethodsApiFp(this.configuration).setMerge(merge, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * MountMethodsApi - axios parameter creator
@@ -172,15 +487,15 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
     return {
         /**
          * Get all volumes currently mounted on the system. Volumes can be filtered by corresponding query parameters.
-         * @summary Get all mounted volumes
+         * @summary Get mounted volumes
          * @param {string} [id] Filter the results by id
-         * @param {string} [mount_point] Filter the results by mount point
+         * @param {string} [mountPoint] Filter the results by mount point
          * @param {string} [type] Filter the results by type
          * @param {string} [source] Filter the results by source
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMounts: async (id?: string, mount_point?: string, type?: string, source?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getMounts: async (id?: string, mountPoint?: string, type?: string, source?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/mount`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -193,12 +508,15 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
             if (id !== undefined) {
                 localVarQueryParameter['id'] = id;
             }
 
-            if (mount_point !== undefined) {
-                localVarQueryParameter['mount_point'] = mount_point;
+            if (mountPoint !== undefined) {
+                localVarQueryParameter['mount_point'] = mountPoint;
             }
 
             if (type !== undefined) {
@@ -242,6 +560,9 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -259,14 +580,13 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
         /**
          * (TODO)
          * @summary Umount volume
-         * @param {string} mount_point Filter the results by mount point
-         * @param {boolean} [persist] &#x60;true&#x60; if the mount should be removed from &#x60;/etc/fstab&#x60;, &#x60;false&#x60; otherwise
+         * @param {string} mountPoint Filter the results by mount point
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        umount: async (mount_point: string, persist?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'mount_point' is not null or undefined
-            assertParamExists('umount', 'mount_point', mount_point)
+        umount: async (mountPoint: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'mountPoint' is not null or undefined
+            assertParamExists('umount', 'mountPoint', mountPoint)
             const localVarPath = `/mount`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -279,12 +599,11 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (mount_point !== undefined) {
-                localVarQueryParameter['mount_point'] = mount_point;
-            }
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
 
-            if (persist !== undefined) {
-                localVarQueryParameter['persist'] = persist;
+            if (mountPoint !== undefined) {
+                localVarQueryParameter['mount_point'] = mountPoint;
             }
 
 
@@ -301,14 +620,14 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
         /**
          * Updating a mount volume is equivalent to unmounting the volume and mounting it again with the new parameters.
          * @summary Update a mount volume
-         * @param {string} mount_point Filter the results by mount point
+         * @param {string} mountPoint Filter the results by mount point
          * @param {Mount} mount 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateMount: async (mount_point: string, mount: Mount, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'mount_point' is not null or undefined
-            assertParamExists('updateMount', 'mount_point', mount_point)
+        updateMount: async (mountPoint: string, mount: Mount, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'mountPoint' is not null or undefined
+            assertParamExists('updateMount', 'mountPoint', mountPoint)
             // verify required parameter 'mount' is not null or undefined
             assertParamExists('updateMount', 'mount', mount)
             const localVarPath = `/mount`;
@@ -323,8 +642,11 @@ export const MountMethodsApiAxiosParamCreator = function (configuration?: Config
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (mount_point !== undefined) {
-                localVarQueryParameter['mount_point'] = mount_point;
+            // authentication access_token required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (mountPoint !== undefined) {
+                localVarQueryParameter['mount_point'] = mountPoint;
             }
 
 
@@ -353,16 +675,16 @@ export const MountMethodsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Get all volumes currently mounted on the system. Volumes can be filtered by corresponding query parameters.
-         * @summary Get all mounted volumes
+         * @summary Get mounted volumes
          * @param {string} [id] Filter the results by id
-         * @param {string} [mount_point] Filter the results by mount point
+         * @param {string} [mountPoint] Filter the results by mount point
          * @param {string} [type] Filter the results by type
          * @param {string} [source] Filter the results by source
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getMounts(id?: string, mount_point?: string, type?: string, source?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMounts200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getMounts(id, mount_point, type, source, options);
+        async getMounts(id?: string, mountPoint?: string, type?: string, source?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMounts200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMounts(id, mountPoint, type, source, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -379,25 +701,24 @@ export const MountMethodsApiFp = function(configuration?: Configuration) {
         /**
          * (TODO)
          * @summary Umount volume
-         * @param {string} mount_point Filter the results by mount point
-         * @param {boolean} [persist] &#x60;true&#x60; if the mount should be removed from &#x60;/etc/fstab&#x60;, &#x60;false&#x60; otherwise
+         * @param {string} mountPoint Filter the results by mount point
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async umount(mount_point: string, persist?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.umount(mount_point, persist, options);
+        async umount(mountPoint: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BaseResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.umount(mountPoint, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Updating a mount volume is equivalent to unmounting the volume and mounting it again with the new parameters.
          * @summary Update a mount volume
-         * @param {string} mount_point Filter the results by mount point
+         * @param {string} mountPoint Filter the results by mount point
          * @param {Mount} mount 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateMount(mount_point: string, mount: Mount, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateMount200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateMount(mount_point, mount, options);
+        async updateMount(mountPoint: string, mount: Mount, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateMount200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateMount(mountPoint, mount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -412,16 +733,16 @@ export const MountMethodsApiFactory = function (configuration?: Configuration, b
     return {
         /**
          * Get all volumes currently mounted on the system. Volumes can be filtered by corresponding query parameters.
-         * @summary Get all mounted volumes
+         * @summary Get mounted volumes
          * @param {string} [id] Filter the results by id
-         * @param {string} [mount_point] Filter the results by mount point
+         * @param {string} [mountPoint] Filter the results by mount point
          * @param {string} [type] Filter the results by type
          * @param {string} [source] Filter the results by source
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getMounts(id?: string, mount_point?: string, type?: string, source?: string, options?: any): AxiosPromise<GetMounts200Response> {
-            return localVarFp.getMounts(id, mount_point, type, source, options).then((request) => request(axios, basePath));
+        getMounts(id?: string, mountPoint?: string, type?: string, source?: string, options?: any): AxiosPromise<GetMounts200Response> {
+            return localVarFp.getMounts(id, mountPoint, type, source, options).then((request) => request(axios, basePath));
         },
         /**
          * (TODO)
@@ -436,24 +757,23 @@ export const MountMethodsApiFactory = function (configuration?: Configuration, b
         /**
          * (TODO)
          * @summary Umount volume
-         * @param {string} mount_point Filter the results by mount point
-         * @param {boolean} [persist] &#x60;true&#x60; if the mount should be removed from &#x60;/etc/fstab&#x60;, &#x60;false&#x60; otherwise
+         * @param {string} mountPoint Filter the results by mount point
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        umount(mount_point: string, persist?: boolean, options?: any): AxiosPromise<BaseResponse> {
-            return localVarFp.umount(mount_point, persist, options).then((request) => request(axios, basePath));
+        umount(mountPoint: string, options?: any): AxiosPromise<BaseResponse> {
+            return localVarFp.umount(mountPoint, options).then((request) => request(axios, basePath));
         },
         /**
          * Updating a mount volume is equivalent to unmounting the volume and mounting it again with the new parameters.
          * @summary Update a mount volume
-         * @param {string} mount_point Filter the results by mount point
+         * @param {string} mountPoint Filter the results by mount point
          * @param {Mount} mount 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateMount(mount_point: string, mount: Mount, options?: any): AxiosPromise<UpdateMount200Response> {
-            return localVarFp.updateMount(mount_point, mount, options).then((request) => request(axios, basePath));
+        updateMount(mountPoint: string, mount: Mount, options?: any): AxiosPromise<UpdateMount200Response> {
+            return localVarFp.updateMount(mountPoint, mount, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -467,17 +787,17 @@ export const MountMethodsApiFactory = function (configuration?: Configuration, b
 export class MountMethodsApi extends BaseAPI {
     /**
      * Get all volumes currently mounted on the system. Volumes can be filtered by corresponding query parameters.
-     * @summary Get all mounted volumes
+     * @summary Get mounted volumes
      * @param {string} [id] Filter the results by id
-     * @param {string} [mount_point] Filter the results by mount point
+     * @param {string} [mountPoint] Filter the results by mount point
      * @param {string} [type] Filter the results by type
      * @param {string} [source] Filter the results by source
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MountMethodsApi
      */
-    public getMounts(id?: string, mount_point?: string, type?: string, source?: string, options?: AxiosRequestConfig) {
-        return MountMethodsApiFp(this.configuration).getMounts(id, mount_point, type, source, options).then((request) => request(this.axios, this.basePath));
+    public getMounts(id?: string, mountPoint?: string, type?: string, source?: string, options?: AxiosRequestConfig) {
+        return MountMethodsApiFp(this.configuration).getMounts(id, mountPoint, type, source, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -495,27 +815,26 @@ export class MountMethodsApi extends BaseAPI {
     /**
      * (TODO)
      * @summary Umount volume
-     * @param {string} mount_point Filter the results by mount point
-     * @param {boolean} [persist] &#x60;true&#x60; if the mount should be removed from &#x60;/etc/fstab&#x60;, &#x60;false&#x60; otherwise
+     * @param {string} mountPoint Filter the results by mount point
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MountMethodsApi
      */
-    public umount(mount_point: string, persist?: boolean, options?: AxiosRequestConfig) {
-        return MountMethodsApiFp(this.configuration).umount(mount_point, persist, options).then((request) => request(this.axios, this.basePath));
+    public umount(mountPoint: string, options?: AxiosRequestConfig) {
+        return MountMethodsApiFp(this.configuration).umount(mountPoint, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updating a mount volume is equivalent to unmounting the volume and mounting it again with the new parameters.
      * @summary Update a mount volume
-     * @param {string} mount_point Filter the results by mount point
+     * @param {string} mountPoint Filter the results by mount point
      * @param {Mount} mount 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MountMethodsApi
      */
-    public updateMount(mount_point: string, mount: Mount, options?: AxiosRequestConfig) {
-        return MountMethodsApiFp(this.configuration).updateMount(mount_point, mount, options).then((request) => request(this.axios, this.basePath));
+    public updateMount(mountPoint: string, mount: Mount, options?: AxiosRequestConfig) {
+        return MountMethodsApiFp(this.configuration).updateMount(mountPoint, mount, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
