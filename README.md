@@ -12,3 +12,7 @@ npx @openapitools/openapi-generator-cli generate -g typescript-axios -i ./openap
 ----
 
 openapi-generator-cli generate -g typescript-axios -i ./api_schema/reference/sample_api.v1.yaml -o ./types/typescript-axios
+
+
+-----
+npx @openapitools/openapi-generator-cli generate -g typescript-axios -i https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppManagement/main/api/app_management/openapi.yaml -o ./src/codegen/app_manangement
