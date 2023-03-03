@@ -15,4 +15,4 @@ openapi-generator-cli generate -g typescript-axios -i ./api_schema/reference/sam
 
 
 -----
-npx @openapitools/openapi-generator-cli generate -g typescript-axios -i https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppManagement/main/api/app_management/openapi.yaml -o ./src/codegen/app_manangement
+npx @openapitools/openapi-generator-cli generate -g typescript-axios -i https://raw.githubusercontent.com/IceWhaleTech/CasaOS-AppManagement/main/api/app_management/openapi.yaml -o ./src/codegen/app_management
